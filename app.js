@@ -55,7 +55,7 @@ app.route("/")
 	})
     //постим или редактируем
 	.post((req, res) => {
-		uploader(req, res, function (err) {
+		uploader(req, res, (err) => {
 			if(Boolean(req.body.edit)){
 					//если редактируем
 					editor(err, req, res, "change");
