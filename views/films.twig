@@ -56,10 +56,10 @@
 										<h3>Список <span>фильмов</span></h3>
 										<ul class="list">
 											{% for item in films|reverse %}
-												<li data-deleted="{{item.ID}}">
+												<li data-deleted="{{item._id}}">
 												    <div class="redact">
-														<span data-delete="{{item.ID}}" class="delete">X delete</span>
-														<span data-delete="{{item.ID}}" class="edit"> edit</span>
+														<span data-delete="{{item._id}}" class="delete">X delete</span>
+														<span class="edit"> edit</span>
                                                     </div>
 													<div>
 														{% if item.preview %}
@@ -93,7 +93,7 @@
 															<div class="field"><label>Описание*: </label>
 																<textarea name="about" id="about" cols="30" rows="10">{{item.about|escape}}</textarea>
 															</div>
-															<input type="hidden" name="id" value="{{item.ID}}">
+															<input type="hidden" name="_id" value="{{item._id}}">
 															<input type="hidden" name="edit" value="true">
 															* - обязательные поля! <input type="submit" class="but-edit" value="Изменить">
 														</fieldset>
