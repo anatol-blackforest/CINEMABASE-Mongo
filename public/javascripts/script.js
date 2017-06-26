@@ -27,7 +27,6 @@ window.onload = function(){
         let item1 = e.target.closest("li").nextElementSibling;
         item1.classList.toggle("hide");
         e.target.classList.toggle("toggled");
-        e.target.closest(".redact").nextElementSibling.classList.toggle("hide");
     }
   });
 

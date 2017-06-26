@@ -57,17 +57,13 @@
 										<ul class="list">
 											{% for item in films|reverse %}
 												<li data-deleted="{{item._id}}">
-												    <div class="redact">
-														<span data-delete="{{item._id}}" class="delete">X delete</span>
-														<span class="edit"> edit</span>
-                                                    </div>
 													<div>
+													    <h4 class="p_title"><a href="/film/{{item._id}}">"{{item.title|escape}}"</a></h4>
 														{% if item.preview %}
 														<div class="poster"><a href="/film/{{item._id}}"><img src="/images/{{item.preview}}" alt="{{item.title|escape}}" /></a></div>
 														{% else %}
 														<div class="poster"><a href="/film/{{item._id}}"><img src="/images/no-poster.png" alt="{{item.title|escape}}" /></a></div>
 														{% endif %}
-														<p class="p1"><span>Название картины:</span> {{item.title|escape}}</p>
 														<p class="p1"><span>Страна:</span> {{item.country|escape}}</p>
 														<p class="p1"><span>Жанр:</span> {{item.genre|escape}}</p>
 														<p class="p1"><span>Режиссер:</span> {{item.author|escape}}</p>
@@ -76,6 +72,10 @@
 														<p class="p1"><span>Рейтинг IMDB:</span> {{item.imdb|escape}}</p>
 														<p class="p1"><span>Описание:</span> {{item.about|escape}}</p>
 													</div>
+													<div class="redact">
+														<span data-delete="{{item._id}}" class="delete">X delete</span>
+														<span class="edit"> edit</span>
+                                                    </div>
 												</li>
 												
 												<li class="editform hide">
