@@ -63,9 +63,9 @@
                                                     </div>
 													<div>
 														{% if item.preview %}
-														<div class="poster"><img src="/images/{{item.preview}}" alt="{{item.title|escape}}" /></div>
+														<div class="poster"><a href="/film/{{item._id}}"><img src="/images/{{item.preview}}" alt="{{item.title|escape}}" /></a></div>
 														{% else %}
-														<div class="poster"><img src="/images/no-poster.png" alt="{{item.title|escape}}" /></div>
+														<div class="poster"><a href="/film/{{item._id}}"><img src="/images/no-poster.png" alt="{{item.title|escape}}" /></a></div>
 														{% endif %}
 														<p class="p1"><span>Название картины:</span> {{item.title|escape}}</p>
 														<p class="p1"><span>Страна:</span> {{item.country|escape}}</p>
