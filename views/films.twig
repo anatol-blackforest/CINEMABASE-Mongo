@@ -18,15 +18,21 @@
 						<div class="row-1">
 							<div class="fleft"><a href="/">Кино<span>помоечка</span></a></div>
 						</div>
+						<div class="row-1 search">
+							<h3>Поиск по <span>названию:</span></h3>
+						    <form action="/search/" method="get" name="search" id="search">
+								<div class="field"><input type="text" name="inputSearch" id="inputSearch" placeholder="search"><input type="submit" value="Найти фильм"></div>
+							</form>
+						</div>
 						<div class="row-2">
-
-							<h3>Добавить <span>фильм</span></h3>
+						    
+							<h3 id="addfilm">Добавить фильм <span class="arrow"></span></h3>
 
 							{% if hint %}
 							    <h4><span>Ошибочка: {{hint}}</span></h4>
 							{% endif %}
 
-							<form id="upload" name="form" method="post" enctype="multipart/form-data" action="/">
+							<form id="upload" name="form" class="hide" method="post" enctype="multipart/form-data" action="/">
                                 
                                 <fieldset>
                                     <div class="field"><label>Название*: <input type="text" id="title" name="title"></label></div>
@@ -45,6 +51,7 @@
 
 							</form>
 						</div>
+						
 					</div>
 					
 		<!-- CONTENT -->

@@ -83,6 +83,33 @@ ul, ol {list-style:none}
     background: url(../design/link2-tail.gif) repeat-x left top;
     padding: 9px 15px 10px 15px;
 }
+.search{
+    padding-bottom:20px
+}
+.search input{
+    float:none;
+    width:70%;
+    max-width: 700px;
+    background:#000;
+    border:1px solid #3a3a3a;
+    color:#fff;
+    height: 33px;
+    border-radius: 5px;
+    padding: 0 15px;
+}
+.search input[type="submit"] {
+    float: right;
+    width: 20%;
+    cursor: pointer;
+    height: 33px;
+    border-radius: 5px;
+}
+.arrow:after{
+    content:"↵"
+}
+.arrowup .arrow:after{
+    content:"↑"
+}
  textarea {width:674px;height:174px;padding:2px 28px 1px 28px;background:url(../design/textarea-bg.gif) no-repeat left top;border:0;color:#fff;margin-bottom:15px;overflow:auto}
  .link2 {float:right}
 /* LISTS */
@@ -118,7 +145,8 @@ a {color:#e1e1e1;outline:none}
 a:hover {text-decoration:none}
 h2 {font-size:30px;line-height:1.2em;color:#1d1d1d;text-transform:uppercase;margin-bottom:12px}
 h2 span {display:block;font-size:40px;color:#2c6d9a}
-h3 {font-size:30px;line-height:1.2em;color:#bfbfbf;margin-bottom:30px}
+h3 {font-size:30px;line-height:1.2em;color:#bfbfbf;margin-bottom:30px;}
+h3#addfilm{cursor:pointer}
 h3 b {color:#e1e1e1;font-weight:normal}
 h3 span {color:#d72a18}
 h4 {font-size:20px;line-height:1.2em;letter-spacing:-1px;color:#2c6d9a;margin-bottom:18px}

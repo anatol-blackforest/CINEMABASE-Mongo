@@ -5,6 +5,10 @@ window.onload = function(){
   const upload = document.getElementById("upload");
   const title = document.getElementById("title");
   const about = document.getElementById("about");
+  const search = document.getElementById("search");
+  const inputSearch = document.getElementById("inputSearch"); 
+  const addfilm = document.getElementById("addfilm");
+  
 
   let enabled = true;
 
@@ -27,6 +31,9 @@ window.onload = function(){
         let item1 = e.target.closest("li").nextElementSibling;
         item1.classList.toggle("hide");
         e.target.classList.toggle("toggled");
+    }else if(e.target.id == "addfilm" || e.target.classList.contains("arrow")){
+        upload.classList.toggle("hide");
+        addfilm.classList.toggle("arrowup");
     }
   });
 
@@ -41,5 +48,7 @@ window.onload = function(){
   		alert("Введите название и описание!");
   	}
   });
+
+
 
 }

@@ -5,6 +5,7 @@ const change = require('./lib/change');
 const deleting = require('./lib/delete');
 const uploader = require('./lib/uploader');
 const onefilm = require('./lib/onefilm');
+const search = require('./lib/search');
 
 const twig = require('twig');
 const express = require('express');
@@ -77,6 +78,13 @@ app.delete("/delete/:id",(req, res) => {
 //страница конкретного фильма
 app.get("/film/:id", (req, res) => {
 	onefilm(req.params.id, (err, films) => {
+		res.render('films.twig',{films: films});
+	});
+})
+
+//поиск
+app.get("/search/", (req, res) => {
+	search(req.query.inputSearch, (err, films) => {
 		res.render('films.twig',{films: films});
 	});
 })
