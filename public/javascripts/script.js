@@ -24,7 +24,7 @@ window.onload = function(){
           } else {
             console.log("GO!");
             console.log(xhr.status + ': ' + xhr.statusText);
-            location.reload();
+            e.target.parentNode.parentNode.remove();
           }
         }
     }else if(e.target.classList.contains("edit")){
