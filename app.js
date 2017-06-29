@@ -70,7 +70,7 @@ app.route("/")
 
 //удаляем
 app.delete("/delete/:id",(req, res) => {
-	deleting(req.params.id, (err, films) => {
+	deleting(req, (err, films) => {
 		res.render('films.twig',{films: films});
 	});
 });
