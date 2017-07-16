@@ -117,6 +117,11 @@ app.get("/search/", (req, res) => {
 	});
 });
 
+//очистить поиск
+app.get("/clear/", (req, res) => {
+	res.redirect("/");
+});
+
 //установка приложения
 app.route("/install/")
 	.get((req, res) => {

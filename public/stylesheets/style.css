@@ -88,7 +88,7 @@ ul, ol {list-style:none}
 }
 .search input{
     float:none;
-    width:70%;
+    width:50%;
     max-width: 700px;
     background:#000;
     border:1px solid #3a3a3a;
@@ -104,6 +104,22 @@ ul, ol {list-style:none}
     height: 33px;
     border-radius: 5px;
 }
+.search .search-clear{
+    cursor: pointer;
+    border-radius: 5px;
+    float: right;
+    width:20%;
+    background: #000;
+    border: 1px solid #3a3a3a;
+    color: #fff;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    margin-left:2%;
+    padding: 7px 0
+}
+
+
 .arrow:after{
     content:"↵"
 }
@@ -165,7 +181,7 @@ h4 {font-size:20px;line-height:1.2em;letter-spacing:-1px;color:#2c6d9a;margin-bo
 .box .border-right {background:url(../design/border-right.gif) repeat-y right top}
 .box .inner {padding:28px 50px 25px 50px}
 /* HEADER */
-#header .row-1 {height:112px;width:100%;overflow:hidden}
+#header .row-1 {height:122px;width:100%;overflow:hidden}
 #header .row-1 .fleft {font-size:40px;line-height:1.2em;padding:26px 0 0 0}
 #header .row-1 .fleft a {text-decoration:none}
 #header .row-1 ul {padding:49px 60px 0 0;float:right}
