@@ -206,6 +206,7 @@ h4 {font-size:20px;line-height:1.2em;letter-spacing:-1px;color:#2c6d9a;margin-bo
 }
 #login input[type="submit"]{
     width: 100px;
+	cursor:pointer;
 }
 .logout input{
     background: #000;
