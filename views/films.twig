@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>{{ title }}</title>
         <link rel='stylesheet' href='/stylesheets/style.css'>
-		<script src="/javascripts/script.js"></script>
+		{#<script src="/javascripts/script.js"></script>#}
 	</head>
 
 	<body>
@@ -14,44 +14,31 @@
 			<div class="tail-bottom">
 				<div id="main">
 		<!-- HEADER -->
-					<div id="header">
+					<div id="header">					
 						<div class="row-1">
 							<div class="fleft"><a href="/">Кино<span>помоечка</span></a></div>
 						</div>
+						<div class="row-2">
+							{#<h3 id="addfilm">Авторизоваться:</h3>#}
+							{% if hint %}
+							    <h4><span>Ошибочка: {{hint}}</span></h4>
+							{% endif %}
+							<form id="login" name="form" method="post" action="/login/">      
+                                <fieldset>
+                                    <div class="field">
+										<input name="username" placeholder="username" type="text"/>
+										<input name="password" placeholder="password" type="password"/>
+										<input type="submit" value="Войти">
+									</div>
+								</fieldset>
+							</form>
+						</div>		
 						<div class="row-1 search">
 							<h3>Поиск по <span>названию:</span></h3>
 						    <form action="/search/" method="get" name="search" id="search">
 								<div class="field"><input type="text" name="inputSearch" id="inputSearch" placeholder="search"><input type="submit" value="Найти фильм"></div>
 							</form>
 						</div>
-						<div class="row-2">
-						    
-							<h3 id="addfilm">Добавить фильм <span class="arrow"></span></h3>
-
-							{% if hint %}
-							    <h4><span>Ошибочка: {{hint}}</span></h4>
-							{% endif %}
-
-							<form id="upload" name="form" class="hide" method="post" enctype="multipart/form-data" action="/">
-                                
-                                <fieldset>
-                                    <div class="field"><label>Название*: <input type="text" id="title" name="title"></label></div>
-                                    <div class="field"><label>Страна: <input type="text" name="country"></label></div>
-                                    <div class="field"><label>Жанр: <input type="text" name="genre"></label></div>
-                                    <div class="field"><label>Режиссер: <input type="text" name="author"></label></div>
-                                    <div class="field"><label>В ролях: <input type="text" name="actors"></label></div>
-                                    <div class="field"><label>Продолжительность (мин): <input type="number" min="15" max="300" name="duration"></label></div>
-                                    <div class="field"><label>Рейтинг IMDB: <input type="text" name="imdb"></label></div>
-                                    <div class="field"><label>Обложка (2MB max): <input type="file" name="preview"></label></div>
-                                    <div class="field"><label>Описание*: </label>
-                                        <textarea name="about" id="about" cols="30" rows="10"></textarea>
-                                    </div>
-									* - обязательные поля! <input type="submit" value="Добавить">
-								</fieldset>
-
-							</form>
-						</div>
-						
 					</div>
 					
 		<!-- CONTENT -->
@@ -63,7 +50,7 @@
 										<h3>Список <span>фильмов</span></h3>
 										<ul class="list">
 											{% for item in films|reverse %}
-												<li data-deleted="{{item._id}}">
+												<li>
 													<div>
 													    <h4 class="p_title"><a href="/film/{{item._id}}">"{{item.title|escape}}"</a></h4>
 														{% if item.preview %}
@@ -79,35 +66,7 @@
 														<p class="p1"><span>Рейтинг IMDB:</span> {{item.imdb|escape}}</p>
 														<p class="p1"><span>Описание:</span> {{item.about|escape}}</p>
 													</div>
-													<div class="redact">
-														<span data-delete="{{item._id}}" class="delete">X delete</span>
-														<span class="edit"> edit</span>
-                                                    </div>
 												</li>
-												
-												<li class="editform hide">
-													<form method="post" action="/" enctype="multipart/form-data">
-                                
-														<fieldset>
-															<div class="field"><label>Название*: <input type="text" id="title" name="title" value="{{item.title|escape}}"></label></div>
-															<div class="field"><label>Страна: <input type="text" name="country" value="{{item.country|escape}}"></label></div>
-															<div class="field"><label>Жанр: <input type="text" name="genre" value="{{item.genre|escape}}"></label></div>
-															<div class="field"><label>Режиссер: <input type="text" name="author" value="{{item.author|escape}}"></label></div>
-															<div class="field"><label>В ролях: <input type="text" name="actors" value="{{item.actors|escape}}"></label></div>
-															<div class="field"><label>Продолжительность (мин): <input type="number" min="15" max="300" name="duration" value="{{item.duration|escape}}"></label></div>
-															<div class="field"><label>Рейтинг IMDB: <input type="text" name="imdb" value="{{item.imdb|escape}}"></label></div>
-															<div class="field"><label>Обложка (2MB max): <input type="file" name="preview"></label></div>
-															<div class="field"><label>Описание*: </label>
-																<textarea name="about" id="about" cols="30" rows="10">{{item.about|escape}}</textarea>
-															</div>
-															<input type="hidden" name="_id" value="{{item._id}}">
-															<input type="hidden" name="edit" value="true">
-															* - обязательные поля! <input type="submit" class="but-edit" value="Изменить">
-														</fieldset>
-
-													</form>
-												</li>
-
 											{% endfor %}
 										</ul>
 									</div>

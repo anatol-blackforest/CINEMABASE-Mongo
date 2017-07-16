@@ -166,7 +166,7 @@ h4 {font-size:20px;line-height:1.2em;letter-spacing:-1px;color:#2c6d9a;margin-bo
 .box .inner {padding:28px 50px 25px 50px}
 /* HEADER */
 #header .row-1 {height:112px;width:100%;overflow:hidden}
-#header .row-1 .fleft {font-size:40px;line-height:1.2em;padding:26px 0 0 47px}
+#header .row-1 .fleft {font-size:40px;line-height:1.2em;padding:26px 0 0 0}
 #header .row-1 .fleft a {text-decoration:none}
 #header .row-1 ul {padding:49px 60px 0 0;float:right}
 #header .row-1 ul li {float:left;padding-left:54px}
@@ -191,3 +191,23 @@ h4 {font-size:20px;line-height:1.2em;letter-spacing:-1px;color:#2c6d9a;margin-bo
 #page1 #content .box {margin:0}
 #page1 #header .row-2 ul li a {height:59px}
 #page1 #header .row-2 ul li.last a:hover {position:relative;z-index:2}
+#login {
+    padding-bottom:30px;
+    position: relative;
+    overflow: hidden;
+}
+#login input{
+    width: 200px;
+    float:left;
+    height: 33px;
+    border-radius: 5px;
+    padding: 0 15px;
+    margin-right:20px;
+}
+#login input[type="submit"]{
+    width: 100px;
+}
+.logout input{
+    background: #000;
+    cursor: pointer
+}

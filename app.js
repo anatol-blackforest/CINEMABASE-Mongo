@@ -6,41 +6,76 @@ const deleting = require('./lib/delete');
 const uploader = require('./lib/uploader');
 const onefilm = require('./lib/onefilm');
 const search = require('./lib/search');
+const crypto = require('./lib/crypto');
+const render = require('./lib/render');
 
 const twig = require('twig');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('cookie-session');
 const path = require('path');
+const logger = require('morgan');
 
-let messages = ["Very big image! (must be less than 2 mb)", "Please upload image only!"];
+let messages = ["Very big image! (must be less than 2 mb)", "Please upload image only!", "Пожалуйста, введите верные логин и пароль"],
+    //имя и пароль админа (вне базы для этой версии, в данный момент - пароль 123).
+    admin = {username:"admin", passHash:"be9106a650ede01f4a31fde2381d06f5fb73e612"},
+    isAdmin;
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
+
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session({keys: ['montesuma']}));
+
+//проверяем админский хэш в сессии
+app.use(function (req, res, next) {
+    isAdmin = (req.session.passHash == admin.passHash);
+    next();
+});
+
+//авторизация
+app.post("/login/", function (req, res) {
+	if(req.body.username == admin.username && crypto(req.body.password) == admin.passHash){
+        req.session.passHash = admin.passHash;
+        res.redirect("/");
+    }else{
+		list((err, films) => {
+			render(isAdmin, res, films, messages[2]);
+		});
+    }
+});
+
+//выход
+app.post("/logout/", function (req, res) {
+    req.session = null;
+    res.redirect("/");
+});
 
 //Обработчик форм (на добавление и редактирование)
 let editor = function(err, req, res, typeOfEdit) {
 	//где typeOfEdit - тип формы (редактирование или добавление нового)
 	if (err){
 		list((err, films) => {
-			res.render('films.twig',{films: films, hint: messages[0]});
+			render(isAdmin, res, films, messages[0]);
 		});
 	} else {
         if (req.file && req.file.mimetype && req.file.mimetype.indexOf('image') == -1){
 			list((err, films) => {
-				res.render('films.twig',{films: films, hint: messages[1]});
+				render(isAdmin, res, films, messages[1]);
 			});
 		} else {
 			if(typeOfEdit == "add"){
-                add(req, res, (films) => {
+                add(req, res, () => {
 					res.redirect('/');
 				});
 			} else if (typeOfEdit == "change"){
-				change(req, res,(films) => {
+				change(req, res,() => {
 					res.redirect('/');
 				});
 			}
@@ -52,40 +87,52 @@ app.route("/")
     //рендерим список фильмов
 	.get((req, res) => {
 		list((err, films) => {
-			res.render('films.twig',{films: films});
+			render(isAdmin, res, films, null);
 		});
 	})
     //постим или редактируем
 	.post((req, res) => {
-		uploader(req, res, (err) => {
-			if(Boolean(req.body.edit)){
-					//если редактируем
-					editor(err, req, res, "change");
-			}else{
-					//если добавляем новое
-					editor(err, req, res, "add");
-			}
-		});
+		if(isAdmin){
+			uploader(req, res, (err) => {
+				if(Boolean(req.body.edit)){
+						//если редактируем
+						editor(err, req, res, "change");
+				}else{
+						//если добавляем новое
+						editor(err, req, res, "add");
+				}
+			});
+		}else{
+			list((err, films) => {
+				render(isAdmin, res, films, null);
+			});
+        }
 	});
 
 //удаляем
 app.delete("/delete/:id",(req, res) => {
-	deleting(req, (err, films) => {
-		res.render('films.twig',{films: films});
-	});
+	if(isAdmin){
+		deleting(req, (err, films) => {
+			render(isAdmin, res, films, null);
+		});
+	}else{
+		list((err, films) => {
+			render(isAdmin, res, films, null);
+		});
+	}
 });
 
 //страница конкретного фильма
 app.get("/film/:id", (req, res) => {
 	onefilm(req.params.id, (err, films) => {
-		res.render('films.twig',{films: films});
+		render(isAdmin, res, films, null);
 	});
 })
 
 //поиск
 app.get("/search/", (req, res) => {
 	search(req.query.inputSearch, (err, films) => {
-		res.render('films.twig',{films: films});
+		render(isAdmin, res, films, null);
 	});
 })
 
