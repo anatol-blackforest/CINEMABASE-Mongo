@@ -10,6 +10,7 @@ const crypto = require('./lib/crypto');
 const render = require('./lib/render');
 const install = require('./lib/install');
 const getAccount = require('./lib/getaccount');
+const formHandler = require('./lib/formhandler');
 
 const twig = require('twig');
 const express = require('express');
@@ -63,35 +64,6 @@ app.post("/logout/", function (req, res) {
     res.redirect("/");
 });
 
-//Обработчик форм (на добавление и редактирование)
-let editor = function(err, req, res, typeOfEdit) {
-	//где typeOfEdit - тип формы (редактирование или добавление нового)
-	if (err){
-		list((err, films) => {
-			render(isAdmin, res, films, messages[0]);
-		});
-	} else {
-        if (req.file && req.file.mimetype && req.file.mimetype.indexOf('image') == -1){
-			//если загруженный файл - НЕ рисунок
-			list((err, films) => {
-				render(isAdmin, res, films, messages[1]);
-			});
-		} else {
-			if(typeOfEdit == "add"){
-				//при добавлении
-                add(req, res, () => {
-					res.redirect('/');
-				});
-			} else if (typeOfEdit == "change"){
-				//при редактировании
-				change(req, res,() => {
-					res.redirect('/');
-				});
-			}
-		}
-	}
-};
-
 app.route("/")
     //рендерим список фильмов
 	.get((req, res) => {
@@ -104,11 +76,11 @@ app.route("/")
 		if(isAdmin){
 			uploader(req, res, (err) => {
 				if(Boolean(req.body.edit)){
-						//если редактируем
-						editor(err, req, res, "change");
+					//если редактируем
+					formHandler(err, req, res, "change", messages, isAdmin, null, change);
 				}else{
-						//если добавляем новое
-						editor(err, req, res, "add");
+					//если добавляем новое
+					formHandler(err, req, res, "add", messages, isAdmin, add, null);
 				}
 			});
 		}else{
