@@ -45,7 +45,7 @@ app.use(function (req, res, next) {
 });
 
 //авторизация
-app.post("/login/", function (req, res) {
+app.post("/login/", (req, res) => {
 	getAccount((result) => {
 		if(result && result.passHash && result.username && req.body.username == result.username && crypto(req.body.password) == result.passHash){
 			req.session.passHash = result.passHash;
@@ -59,7 +59,7 @@ app.post("/login/", function (req, res) {
 });
 
 //выход
-app.post("/logout/", function (req, res) {
+app.post("/logout/", (req, res) => {
     req.session = null;
     res.redirect("/");
 });
@@ -108,14 +108,14 @@ app.get("/film/:id", (req, res) => {
 	onefilm(req.params.id, (err, films) => {
 		render(isAdmin, res, films, null);
 	});
-})
+});
 
 //поиск
 app.get("/search/", (req, res) => {
 	search(req.query.inputSearch, (err, films) => {
 		render(isAdmin, res, films, null);
 	});
-})
+});
 
 //установка приложения
 app.route("/install/")
