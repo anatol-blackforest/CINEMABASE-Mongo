@@ -35,7 +35,7 @@ app.use(cookieParser());
 app.use(session({keys: ['montesuma']}));
 
 //проверяем админский хэш в сессии
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
 	getAccount((result) => {
 		if(result && result.passHash){
 		    isAdmin = (req.session.passHash == result.passHash);
