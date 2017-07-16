@@ -8,6 +8,8 @@ const onefilm = require('./lib/onefilm');
 const search = require('./lib/search');
 const crypto = require('./lib/crypto');
 const render = require('./lib/render');
+const install = require('./lib/install');
+const getAccount = require('./lib/getaccount');
 
 const twig = require('twig');
 const express = require('express');
@@ -19,9 +21,7 @@ const path = require('path');
 const logger = require('morgan');
 
 let messages = ["Very big image! (must be less than 2 mb)", "Please upload image only!", "Пожалуйста, введите верные логин и пароль"],
-    //имя и пароль админа (вне базы для этой версии, в данный момент - пароль 123).
-    admin = {username:"admin", passHash:"be9106a650ede01f4a31fde2381d06f5fb73e612"},
-    isAdmin;
+    admin, isAdmin;
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
@@ -35,20 +35,26 @@ app.use(session({keys: ['montesuma']}));
 
 //проверяем админский хэш в сессии
 app.use(function (req, res, next) {
-    isAdmin = (req.session.passHash == admin.passHash);
-    next();
+	getAccount(admin, (result) => {
+		if(result && result.passHash){
+		    isAdmin = (req.session.passHash == result.passHash);
+		}
+		next();
+	});
 });
 
 //авторизация
 app.post("/login/", function (req, res) {
-	if(req.body.username == admin.username && crypto(req.body.password) == admin.passHash){
-        req.session.passHash = admin.passHash;
-        res.redirect("/");
-    }else{
-		list((err, films) => {
-			render(isAdmin, res, films, messages[2]);
-		});
-    }
+	getAccount(admin, (result) => {
+		if(result && result.passHash && result.username && req.body.username == result.username && crypto(req.body.password) == result.passHash){
+			req.session.passHash = result.passHash;
+			res.redirect("/");
+		}else{
+			list((err, films) => {
+				render(isAdmin, res, films, messages[2]);
+			});
+		}
+	});
 });
 
 //выход
@@ -135,6 +141,19 @@ app.get("/search/", (req, res) => {
 		render(isAdmin, res, films, null);
 	});
 })
+
+//установка приложения
+app.route("/install/")
+	.get((req, res) => {
+		install(req, res, "get", () => {
+			res.render("install");
+		});
+	})
+	.post((req, res) => {
+        install(req, res, "post", (hint) => {
+			res.render("install", {hint});
+		});
+	});
 
 // ловим 404 ошибку
 app.use((req, res) => {

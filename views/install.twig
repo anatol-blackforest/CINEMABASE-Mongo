@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>{{ title }}</title>
+        <link rel='stylesheet' href='/stylesheets/style.css'>
+	</head>
+
+	<body>
+		<div class="tail-top">
+			<div class="tail-bottom">
+				<div id="main">
+		<!-- HEADER -->
+					<div id="header">					
+						<div class="row-1">
+							<div class="fleft"><a href="/">Кино<span>помоечка</span></a></div>
+						</div>
+						<div class="row-2">
+							<h3 id="addfilm">Создать аккаунт и установить приложение:</h3>
+							{% if hint %}
+							    <h4><span>{{hint}}</span></h4>
+							{% endif %}
+							<form id="login" name="form" method="post" action="/install/">      
+                                <fieldset>
+                                    <div class="field">
+										<input name="adminname" placeholder="adminname" type="text"/>
+										<input name="password" placeholder="password" type="password"/>
+										<input type="submit" value="Install">
+									</div>
+								</fieldset>
+							</form>
+						</div>	
+					</div>
+					
+		<!-- FOOTER -->
+					<div id="footer">
+						<div class="left">
+							<div class="right">
+								<div class="inside">
+									&copy; Верните ex.ua ироды!
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
