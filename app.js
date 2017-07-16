@@ -21,7 +21,7 @@ const path = require('path');
 const logger = require('morgan');
 
 let messages = ["Very big image! (must be less than 2 mb)", "Please upload image only!", "Пожалуйста, введите верные логин и пароль"],
-    admin, isAdmin;
+    isAdmin;
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
@@ -35,7 +35,7 @@ app.use(session({keys: ['montesuma']}));
 
 //проверяем админский хэш в сессии
 app.use(function (req, res, next) {
-	getAccount(admin, (result) => {
+	getAccount((result) => {
 		if(result && result.passHash){
 		    isAdmin = (req.session.passHash == result.passHash);
 		}
@@ -45,7 +45,7 @@ app.use(function (req, res, next) {
 
 //авторизация
 app.post("/login/", function (req, res) {
-	getAccount(admin, (result) => {
+	getAccount((result) => {
 		if(result && result.passHash && result.username && req.body.username == result.username && crypto(req.body.password) == result.passHash){
 			req.session.passHash = result.passHash;
 			res.redirect("/");
