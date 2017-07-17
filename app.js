@@ -77,10 +77,10 @@ app.route("/")
 			uploader(req, res, (err) => {
 				if(Boolean(req.body.edit)){
 					//если редактируем
-					formHandler(err, req, res, "change", messages, isAdmin, null, change);
+					formHandler(err, req, res, "change", messages, isAdmin, null, change, list, render);
 				}else{
 					//если добавляем новое
-					formHandler(err, req, res, "add", messages, isAdmin, add, null);
+					formHandler(err, req, res, "add", messages, isAdmin, add, null, list, render);
 				}
 			});
 		}else{
