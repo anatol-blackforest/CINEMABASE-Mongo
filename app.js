@@ -68,7 +68,7 @@ app.route("/")
     //рендерим список фильмов
 	.get((req, res) => {
 		list((err, films) => {
-			render(isAdmin, res, films, null);
+			render(isAdmin, res, films);
 		});
 	})
     //постим или редактируем
@@ -86,7 +86,7 @@ app.route("/")
 			});
 		}else{
 			list((err, films) => {
-				render(isAdmin, res, films, null);
+				render(isAdmin, res, films);
 			});
         }
 	});
@@ -95,11 +95,11 @@ app.route("/")
 app.delete("/delete/:id",(req, res) => {
 	if(isAdmin){
 		deleting(req, (err, films) => {
-			render(isAdmin, res, films, null);
+			render(isAdmin, res, films);
 		});
 	}else{
 		list((err, films) => {
-			render(isAdmin, res, films, null);
+			render(isAdmin, res, films);
 		});
 	}
 });
@@ -107,14 +107,14 @@ app.delete("/delete/:id",(req, res) => {
 //страница конкретного фильма
 app.get("/film/:id", (req, res) => {
 	onefilm(req.params.id, (err, films) => {
-		render(isAdmin, res, films, null);
+		render(isAdmin, res, films);
 	});
 });
 
 //поиск
 app.get("/search/", (req, res) => {
 	search(req.query.inputSearch, (err, films) => {
-		render(isAdmin, res, films, null);
+		render(isAdmin, res, films);
 	});
 });
 
