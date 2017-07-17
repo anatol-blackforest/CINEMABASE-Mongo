@@ -36,7 +36,7 @@ app.use(session({keys: ['montesuma']}));
 
 //проверяем админский хэш в сессии
 app.use((req, res, next) => {
-	getAccount((result) => {
+	getAccount(result => {
 		if(result && result.passHash){
 		    isAdmin = (req.session.passHash == result.passHash);
 		}
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 
 //авторизация
 app.post("/login/", (req, res) => {
-	getAccount((result) => {
+	getAccount(result => {
 		if(result && result.passHash && result.username && req.body.username == result.username && crypto(req.body.password) == result.passHash){
 			req.session.passHash = result.passHash;
 			res.redirect("/");
@@ -74,7 +74,7 @@ app.route("/")
     //постим или редактируем
 	.post((req, res) => {
 		if(isAdmin){
-			uploader(req, res, (err) => {
+			uploader(req, res, err => {
 				let config = {};
 				if(Boolean(req.body.edit)){
 					//если редактируем
@@ -92,7 +92,7 @@ app.route("/")
 	});
 
 //удаляем
-app.delete("/delete/:id",(req, res) => {
+app.delete("/delete/:id", (req, res) => {
 	if(isAdmin){
 		deleting(req, (err, films) => {
 			render(isAdmin, res, films);
@@ -131,7 +131,7 @@ app.route("/install/")
 		});
 	})
 	.post((req, res) => {
-        install(req, res, "post", (hint) => {
+        install(req, res, "post", hint => {
 			res.render("install", {hint});
 		});
 	});
