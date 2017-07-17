@@ -75,12 +75,13 @@ app.route("/")
 	.post((req, res) => {
 		if(isAdmin){
 			uploader(req, res, (err) => {
+				let config = {};
 				if(Boolean(req.body.edit)){
 					//если редактируем
-					formHandler(err, req, res, "change", messages, isAdmin, null, change, list, render);
+					formHandler(err, req, res, messages, isAdmin, "change");
 				}else{
 					//если добавляем новое
-					formHandler(err, req, res, "add", messages, isAdmin, add, null, list, render);
+					formHandler(err, req, res, messages, isAdmin, "add");
 				}
 			});
 		}else{
