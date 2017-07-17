@@ -11,6 +11,7 @@ const render = require('./lib/render');
 const install = require('./lib/install');
 const getAccount = require('./lib/getaccount');
 const formHandler = require('./lib/formhandler');
+const messages = require('./lib/messages');
 
 const twig = require('twig');
 const express = require('express');
@@ -21,8 +22,7 @@ const session = require('cookie-session');
 const path = require('path');
 const logger = require('morgan');
 
-let messages = ["Very big image! (must be less than 2 mb)", "Please upload image only!", "Пожалуйста, введите верные логин и пароль"],
-    isAdmin;
+let isAdmin;
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
@@ -52,7 +52,7 @@ app.post("/login/", (req, res) => {
 			res.redirect("/");
 		}else{
 			list((err, films) => {
-				render(isAdmin, res, films, messages[2]);
+				render(isAdmin, res, films, messages[1]);
 			});
 		}
 	});
@@ -78,10 +78,10 @@ app.route("/")
 				let config = {};
 				if(Boolean(req.body.edit)){
 					//если редактируем
-					formHandler(err, req, res, messages, isAdmin, "change");
+					formHandler(err, req, res, isAdmin, "change");
 				}else{
 					//если добавляем новое
-					formHandler(err, req, res, messages, isAdmin, "add");
+					formHandler(err, req, res, isAdmin, "add");
 				}
 			});
 		}else{
