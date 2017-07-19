@@ -21,6 +21,7 @@ const cookieParser = require('cookie-parser');
 const session = require('cookie-session');
 const path = require('path');
 const logger = require('morgan');
+const fs = require('fs');
 
 let isAdmin;
 
@@ -75,7 +76,12 @@ app.route("/")
 	.post((req, res) => {
 		if(isAdmin){
 			uploader(req, res, err => {
-				let config = {};
+				// место, куда файл будет загружен 
+				if(req.file){
+	                let src = fs.createReadStream(path.join(req.file.destination, req.file.filename)); 
+				    let dest = fs.createWriteStream(path.join("./public/images/", req.file.filename));
+				    src.pipe(dest); 
+				}
 				if(Boolean(req.body.edit)){
 					//если редактируем
 					formHandler(err, req, res, isAdmin, "change");
