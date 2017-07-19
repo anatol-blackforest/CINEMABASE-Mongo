@@ -9,7 +9,6 @@ window.onload = function(){
   const inputSearch = document.getElementById("inputSearch"); 
   const addfilm = document.getElementById("addfilm");
   
-
   let enabled = true;
 
   document.addEventListener("click", function(e){
@@ -48,7 +47,5 @@ window.onload = function(){
   		alert("Введите название и описание!");
   	}
   });
-
-
 
 }
