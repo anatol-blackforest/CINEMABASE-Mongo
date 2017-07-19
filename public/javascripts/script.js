@@ -68,4 +68,4 @@ window.onload = function(){
   	}
   });
 
-}
+};
