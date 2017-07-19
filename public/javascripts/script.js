@@ -40,11 +40,6 @@ window.onload = function(){
   document.addEventListener("submit", function(e){
        if(e.target.classList.contains("form-edit")){
             e.preventDefault();
-
-            console.log(e.target);
-            console.log(e.target.title.value);
-            console.log(e.target.about.value);
-
             if(e.target.title.value && e.target.about.value){
               if(enabled_edit){
                 e.target.submit();
