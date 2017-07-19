@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node app.js"
   },
+  "author": "Anatol Blackforest",
   "dependencies": {
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
