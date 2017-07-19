@@ -9,8 +9,8 @@ window.onload = function(){
   const inputSearch = document.getElementById("inputSearch"); 
   const addfilm = document.getElementById("addfilm");
   
-
-  let enabled = true;
+  let enabled_post = true;
+  let enabled_edit = true;
 
   document.addEventListener("click", function(e){
     if(e.target.className == "delete"){
@@ -37,18 +37,35 @@ window.onload = function(){
     }
   });
 
+  document.addEventListener("submit", function(e){
+       if(e.target.classList.contains("form-edit")){
+            e.preventDefault();
+
+            console.log(e.target);
+            console.log(e.target.title.value);
+            console.log(e.target.about.value);
+
+            if(e.target.title.value && e.target.about.value){
+              if(enabled_edit){
+                e.target.submit();
+                enabled_edit = false;
+              }
+            }else{
+              alert("Введите название и описание!");
+            }
+       } 
+  });
+
   upload.addEventListener("submit", function(e){
   	e.preventDefault();
   	if(title.value && about.value){
-      if(enabled){
+      if(enabled_post){
          upload.submit();
-         enabled = false;
+         enabled_post = false;
       }
   	}else{
   		alert("Введите название и описание!");
   	}
   });
-
-
 
 }

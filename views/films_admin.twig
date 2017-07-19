@@ -97,10 +97,10 @@
 												</li>
 												
 												<li class="editform hide">
-													<form method="post" action="/" enctype="multipart/form-data">
+													<form class="form-edit" method="post" action="/" enctype="multipart/form-data">
                                 
 														<fieldset>
-															<div class="field"><label>Название*: <input type="text" id="title" name="title" value="{{item.title|escape}}"></label></div>
+															<div class="field"><label>Название*: <input type="text" id="title-{{item._id}}" name="title" value="{{item.title|escape}}"></label></div>
 															<div class="field"><label>Страна: <input type="text" name="country" value="{{item.country|escape}}"></label></div>
 															<div class="field"><label>Жанр: <input type="text" name="genre" value="{{item.genre|escape}}"></label></div>
 															<div class="field"><label>Режиссер: <input type="text" name="author" value="{{item.author|escape}}"></label></div>
@@ -109,7 +109,7 @@
 															<div class="field"><label>Рейтинг IMDB: <input type="text" name="imdb" value="{{item.imdb|escape}}"></label></div>
 															<div class="field"><label>Обложка (2MB max): <input type="file" name="preview"></label></div>
 															<div class="field"><label>Описание*: </label>
-																<textarea name="about" id="about" cols="30" rows="10">{{item.about|escape}}</textarea>
+																<textarea name="about" id="about-{{item._id}}" cols="30" rows="10">{{item.about|escape}}</textarea>
 															</div>
 															<input type="hidden" name="_id" value="{{item._id}}">
 															<input type="hidden" name="edit" value="true">

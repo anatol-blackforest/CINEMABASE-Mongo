@@ -10,8 +10,8 @@ const crypto = require('./lib/crypto');
 const render = require('./lib/render');
 const install = require('./lib/install');
 const getAccount = require('./lib/getaccount');
-const formHandler = require('./lib/formhandler');
 const messages = require('./lib/messages');
+const postUploader = require('./lib/postuploader');
 
 const twig = require('twig');
 const express = require('express');
@@ -21,7 +21,6 @@ const cookieParser = require('cookie-parser');
 const session = require('cookie-session');
 const path = require('path');
 const logger = require('morgan');
-const fs = require('fs');
 
 let isAdmin;
 
@@ -77,18 +76,7 @@ app.route("/")
 		if(isAdmin){
 			uploader(req, res, err => {
 				// место, куда файл будет загружен 
-				if(req.file){
-	                let src = fs.createReadStream(path.join(req.file.destination, req.file.filename)); 
-				    let dest = fs.createWriteStream(path.join("./public/images/", req.file.filename));
-				    src.pipe(dest); 
-				}
-				if(Boolean(req.body.edit)){
-					//если редактируем
-					formHandler(err, req, res, isAdmin, "change");
-				}else{
-					//если добавляем новое
-					formHandler(err, req, res, isAdmin, "add");
-				}
+                postUploader(err, req, res, isAdmin);
 			});
 		}else{
 			list((err, films) => {
