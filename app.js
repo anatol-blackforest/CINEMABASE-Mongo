@@ -1,4 +1,4 @@
-const db = require('./lib/db');
+const port = require('./lib/config').port;
 const list = require('./lib/list');
 const add = require('./lib/add');
 const change = require('./lib/change');
@@ -22,7 +22,7 @@ const session = require('cookie-session');
 const path = require('path');
 const logger = require('morgan');
 
-let isAdmin, port = 3000;
+let isAdmin;
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
