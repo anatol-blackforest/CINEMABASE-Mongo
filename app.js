@@ -22,7 +22,7 @@ const session = require('cookie-session');
 const path = require('path');
 const logger = require('morgan');
 
-let isAdmin;
+let isAdmin, port = 3000;
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
@@ -135,5 +135,6 @@ app.use((req, res) => {
 	res.status(404).render("404.twig");
 });	
 
-app.listen(3000);
-console.log('Express server listening on port 3000');
+app.listen(port, () => {
+    console.log(`${messages[1]} ${port}`);
+});
