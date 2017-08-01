@@ -136,5 +136,5 @@ app.use((req, res) => {
 });	
 
 app.listen(port, () => {
-    console.log(`${messages[1]} ${port}`);
+    console.log(`${messages[6]} ${port}`);
 });
