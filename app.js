@@ -76,7 +76,7 @@ app.route("/")
 		if(isAdmin){
 			uploader(req, res, err => {
 				// место, куда файл будет загружен 
-                postUploader(err, req, res, isAdmin);
+               			postUploader(err, req, res, isAdmin);
 			});
 		}else{
 			list((err, films) => {
@@ -125,7 +125,7 @@ app.route("/install/")
 		});
 	})
 	.post((req, res) => {
-        install(req, res, "post", hint => {
+      		install(req, res, "post", hint => {
 			res.render("install", {hint});
 		});
 	});
