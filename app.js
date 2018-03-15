@@ -70,7 +70,7 @@ app.route("/")
 		if(isAdmin){
 			uploader(req, res, err => {
 				// место, куда файл будет загружен 
-               			postUploader(err, req, res, isAdmin);
+               	postUploader(err, req, res, isAdmin);
 			});
 		}else{
 			list((err, films) => render(isAdmin, res, films));
