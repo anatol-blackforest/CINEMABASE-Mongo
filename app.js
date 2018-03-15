@@ -51,9 +51,7 @@ app.post("/login/", (req, res) => {
 			req.session.passHash = result.passHash;
 			res.redirect("/");
 		}else{
-			list((err, films) => {
-				render(isAdmin, res, films, messages[1]);
-			});
+			list((err, films) => render(isAdmin, res, films, messages[1]));
 		}
 	});
 });
@@ -66,11 +64,7 @@ app.post("/logout/", (req, res) => {
 
 app.route("/")
     //рендерим список фильмов
-	.get((req, res) => {
-		list((err, films) => {
-			render(isAdmin, res, films);
-		});
-	})
+	.get((req, res) => list((err, films) => render(isAdmin, res, films)))
     //постим или редактируем
 	.post((req, res) => {
 		if(isAdmin){
@@ -79,62 +73,34 @@ app.route("/")
                 postUploader(err, req, res, isAdmin);
 			});
 		}else{
-			list((err, films) => {
-				render(isAdmin, res, films);
-			});
+			list((err, films) => render(isAdmin, res, films));
         }
 	});
 
 //удаляем
 app.delete("/delete/:id", (req, res) => {
 	if(isAdmin){
-		deleting(req, (err, films) => {
-			render(isAdmin, res, films);
-		});
+		deleting(req, (err, films) => render(isAdmin, res, films));
 	}else{
-		list((err, films) => {
-			render(isAdmin, res, films);
-		});
+		list((err, films) => render(isAdmin, res, films));
 	}
 });
 
 //страница конкретного фильма
-app.get("/film/:id", (req, res) => {
-	onefilm(req.params.id, (err, films) => {
-		render(isAdmin, res, films);
-	});
-});
+app.get("/film/:id", (req, res) => onefilm(req.params.id, (err, films) => render(isAdmin, res, films)));
 
 //поиск
-app.get("/search/", (req, res) => {
-	search(req.query.inputSearch, (err, films) => {
-		render(isAdmin, res, films);
-	});
-});
+app.get("/search/", (req, res) => search(req.query.inputSearch, (err, films) => render(isAdmin, res, films)));
 
 //очистить поиск
-app.get("/clear/", (req, res) => {
-	res.redirect("/");
-});
+app.get("/clear/", (req, res) => res.redirect("/"));
 
 //установка приложения
 app.route("/install/")
-	.get((req, res) => {
-		install(req, res, "get", () => {
-			res.render("install");
-		});
-	})
-	.post((req, res) => {
-        install(req, res, "post", hint => {
-			res.render("install", {hint});
-		});
-	});
+	.get((req, res) => install(req, res, "get", () => res.render("install")))
+	.post((req, res) => install(req, res, "post", hint => res.render("install", {hint})));
 
 // ловим 404 ошибку
-app.use((req, res) => {
-	res.status(404).render("404.twig");
-});	
+app.use((req, res) => res.status(404).render("404.twig"));	
 
-app.listen(port, () => {
-    console.log(`${messages[6]} ${port}`);
-});
+app.listen(port, () => console.log(`${messages[6]} ${port}`));
