@@ -76,7 +76,10 @@ app.delete("/delete/:id", (req, res) => {
 });
 
 //страница конкретного фильма
-app.get("/film/:id", (req, res) => onefilm(req.params.id, (err, films) => render(isAdmin, res, films)));
+app.get("/film/:id", (req, res, next) => onefilm(req.params.id, (err, films) => {
+	if(err) return next() 
+	render(isAdmin, res, films)
+}));
 
 //поиск
 app.get("/search/", (req, res) => search(req.query.inputSearch, (err, films) => render(isAdmin, res, films)));
