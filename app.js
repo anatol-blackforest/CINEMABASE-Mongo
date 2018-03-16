@@ -1,17 +1,6 @@
-const port = require('./lib/config').port;
-const list = require('./lib/list');
-const add = require('./lib/add');
-const change = require('./lib/change');
-const deleting = require('./lib/delete');
-const uploader = require('./lib/uploader');
-const onefilm = require('./lib/onefilm');
-const search = require('./lib/search');
-const crypto = require('./lib/crypto');
-const render = require('./lib/render');
-const install = require('./lib/install');
-const getAccount = require('./lib/getaccount');
-const messages = require('./lib/messages');
-const postUploader = require('./lib/postuploader');
+//подключаем модули
+const {config, list, add, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages, postUploader} = require('./lib');
+const port = config.port;
 
 const twig = require('twig');
 const express = require('express');
