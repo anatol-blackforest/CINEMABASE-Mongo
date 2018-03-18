@@ -1,5 +1,5 @@
 //подключаем модули
-const {config, list, add, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages, postUploader} = require('./lib');
+const {config, list, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages, postUploader} = require('./lib');
 const port = config.port;
 
 const twig = require('twig');
