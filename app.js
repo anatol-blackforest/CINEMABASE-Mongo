@@ -27,7 +27,7 @@ app.use(session({keys: ['montesuma']}));
 app.use((req, res, next) => {
 	getAccount(result => {
 		if(result && result.passHash){
-		    isAdmin = (req.session.passHash == result.passHash);
+		    isAdmin = (req.session.passHash === result.passHash);
 		}
 		next();
 	});
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 //авторизация
 app.post("/login/", (req, res) => {
 	getAccount(result => {
-		if(result && result.passHash && result.username && req.body.username == result.username && crypto(req.body.password) == result.passHash){
+		if(result && result.passHash && result.username && req.body.username === result.username && crypto(req.body.password) === result.passHash){
 			req.session.passHash = result.passHash;
 			res.redirect("/");
 		}else{
