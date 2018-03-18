@@ -95,4 +95,4 @@ app.route("/install/")
 // ловим 404 ошибку
 app.use((req, res) => res.status(404).render("404.twig"));	
 
-app.listen(port, () => console.log(`${messages[6]} ${port}`));
+app.listen(port, () => console.log(`${messages[8]} ${port}`));
