@@ -54,23 +54,17 @@ app.route("/")
 	.get((req, res) => list((err, films) => render(isAdmin, res, films)))
     //постим или редактируем
 	.post((req, res) => {
-		if(isAdmin){
-			uploader(req, res, err => {
-				// место, куда файл будет загружен 
-               	postUploader(err, req, res, isAdmin);
-			});
-		}else{
-			list((err, films) => render(isAdmin, res, films));
-        }
+		if(!isAdmin) return list((err, films) => render(isAdmin, res, films));
+		uploader(req, res, err => {
+			// место, куда файл будет загружен 
+			postUploader(err, req, res, isAdmin);
+		});
 	});
 
 //удаляем
 app.delete("/delete/:id", (req, res) => {
-	if(isAdmin){
-		deleting(req, (err, films) => render(isAdmin, res, films));
-	}else{
-		list((err, films) => render(isAdmin, res, films));
-	}
+	if(isAdmin) return deleting(req, (err, films) => render(isAdmin, res, films));
+    list((err, films) => render(isAdmin, res, films));
 });
 
 //страница конкретного фильма
