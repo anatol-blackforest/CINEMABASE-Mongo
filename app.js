@@ -26,9 +26,7 @@ app.use(session({keys: ['montesuma']}));
 //проверяем админский хэш в сессии
 app.use((req, res, next) => {
 	getAccount(result => {
-		if(result && result.passHash){
-		    isAdmin = (req.session.passHash === result.passHash);
-		}
+		if(result && result.passHash) isAdmin = (req.session.passHash === result.passHash);
 		next();
 	});
 });
