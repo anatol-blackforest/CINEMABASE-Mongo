@@ -51,7 +51,7 @@ app.post("/logout/", (req, res) => {
 
 app.route("/")
     //рендерим список фильмов
-	.get((req, res) => list((err, films) => render(isAdmin, res, films)))
+	.get((req, res) => list((err, films) => render(isAdmin, res, films)).catch(err => console.error(err)))
     //постим или редактируем
 	.post((req, res) => {
 		if(!isAdmin) return list((err, films) => render(isAdmin, res, films));
@@ -82,7 +82,7 @@ app.get("/clear/", (req, res) => res.redirect("/"));
 //установка приложения
 app.route("/install/")
 	.get((req, res) => install(req, res, "get", () => res.render("install")))
-	.post((req, res) => install(req, res, "post", hint => res.render("install", {hint})));
+	.post((req, res) => install(req, res, "post", hint => res.render("install", {hint})).catch(err => console.error(err)));
 
 // ловим 404 ошибку
 app.use((req, res) => res.status(404).render("404.twig"));	
