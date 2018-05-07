@@ -26,7 +26,7 @@ app.use(session({keys: ['montesuma']}));
 //проверяем админский хэш в сессии
 app.use((req, res, next) => {
 	getAccount(result => {
-		if(result && result.passHash) isAdmin = (req.session.passHash === result.passHash);
+		if (result && result.passHash) isAdmin = (req.session.passHash === result.passHash);
 		next();
 	});
 });
@@ -54,7 +54,7 @@ app.route("/")
 	.get((req, res) => list((err, films) => render(isAdmin, res, films)))
     //постим или редактируем
 	.post((req, res) => {
-		if(!isAdmin) return list((err, films) => render(isAdmin, res, films));
+		if (!isAdmin) return list((err, films) => render(isAdmin, res, films));
 		uploader(req, res, err => {
 			// место, куда файл будет загружен 
 			postUploader(err, req, res, isAdmin);
@@ -63,13 +63,13 @@ app.route("/")
 
 //удаляем
 app.delete("/delete/:id", (req, res) => {
-	if(isAdmin) return deleting(req, () => render(isAdmin, res));
+	if (isAdmin) return deleting(req, () => render(isAdmin, res));
     list(() => render(isAdmin, res));
 });
 
 //страница конкретного фильма
 app.get("/film/:id", (req, res, next) => onefilm(req.params.id, (err, films) => {
-	if(err) return next() 
+	if (err) return next() 
 	render(isAdmin, res, films)
 }));
 
