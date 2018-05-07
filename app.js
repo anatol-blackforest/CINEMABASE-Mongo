@@ -63,8 +63,8 @@ app.route("/")
 
 //удаляем
 app.delete("/delete/:id", (req, res) => {
-	if(isAdmin) return deleting(req, (err, films) => render(isAdmin, res, films));
-    list((err, films) => render(isAdmin, res, films));
+	if(isAdmin) return deleting(req, (err, films) => render(isAdmin, res));
+    list((err, films) => render(isAdmin, res));
 });
 
 //страница конкретного фильма
@@ -74,7 +74,7 @@ app.get("/film/:id", (req, res, next) => onefilm(req.params.id, (err, films) => 
 }));
 
 //поиск
-app.get("/search/", (req, res) => search(req.query.inputSearch, (err, films) => render(isAdmin, res, films)));
+app.get("/search/", (req, res) => search(req.query.inputSearch, (err, films, hint) => render(isAdmin, res, films, hint)));
 
 //очистить поиск
 app.get("/clear/", (req, res) => res.redirect("/"));
