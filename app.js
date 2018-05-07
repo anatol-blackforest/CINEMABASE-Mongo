@@ -63,8 +63,8 @@ app.route("/")
 
 //удаляем
 app.delete("/delete/:id", (req, res) => {
-	if(isAdmin) return deleting(req, (err, films) => render(isAdmin, res));
-    list((err, films) => render(isAdmin, res));
+	if(isAdmin) return deleting(req, () => render(isAdmin, res));
+    list(() => render(isAdmin, res));
 });
 
 //страница конкретного фильма
