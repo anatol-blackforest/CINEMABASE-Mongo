@@ -25,14 +25,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //проверяем админский хэш в сессии
-passport.use(new LocalStrategy((username, password, done) => {
-	getAccount(username, password, done)
-	.then(result => (result) ? done(null, {user: 'Admin', id: 1}) : done(null, false))
-	.catch(err => done(null, false))
-}));
+passport.use(new LocalStrategy((username, password, done) => getAccount(username, password, done).catch(err => done(null, false))));
 
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => done(null, {user: 'Admin', id: 1}));
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
 
 //авторизация
 app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/'}))
