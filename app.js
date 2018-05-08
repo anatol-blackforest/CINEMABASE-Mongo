@@ -9,8 +9,8 @@ const cookieParser = require('cookie-parser');
 const session = require('cookie-session');
 const path = require('path');
 const logger = require('morgan');
-
-let isAdmin;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
@@ -21,26 +21,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(session({keys: ['montesuma']}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 //проверяем админский хэш в сессии
-app.use((req, res, next) => {
-	getAccount(result => {
-		if (result && result.passHash) isAdmin = (req.session.passHash === result.passHash);
-		next();
-	});
-});
+passport.use(new LocalStrategy((username, password, done) => {
+	getAccount(username, password, done)
+	.then(result => (result) ? done(null, {user: 'Admin', id: 1}) : done(null, false))
+	.catch(err => done(null, false))
+}));
+
+passport.serializeUser((user, done) => done(null, user.id));
+passport.deserializeUser((id, done) => done(null, {user: 'Admin', id: 1}));
 
 //авторизация
-app.post("/login/", (req, res) => {
-	getAccount(result => {
-		if(result && result.passHash && result.username && req.body.username === result.username && crypto(req.body.password) === result.passHash){
-			req.session.passHash = result.passHash;
-			res.redirect("/");
-		}else{
-			list((err, films) => render(isAdmin, res, films, messages[1]));
-		}
-	});
-});
+app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/'}))
 
 //выход
 app.post("/logout/", (req, res) => {
@@ -50,30 +45,30 @@ app.post("/logout/", (req, res) => {
 
 app.route("/")
     //рендерим список фильмов
-	.get((req, res) => list((err, films) => render(isAdmin, res, films)))
+	.get((req, res) => list((err, films) => render(req, res, films)))
     //постим или редактируем
 	.post((req, res) => {
-		if (!isAdmin) return list((err, films) => render(isAdmin, res, films));
+		if (!req.isAuthenticated()) return list((err, films) => render(req, res, films));
 		uploader(req, res, err => {
 			// место, куда файл будет загружен 
-			postUploader(err, req, res, isAdmin);
+			postUploader(err, req, res, req.isAuthenticated());
 		});
 	});
 
 //удаляем
 app.delete("/delete/:id", (req, res) => {
-	if (isAdmin) return deleting(req, () => render(isAdmin, res));
-    list(() => render(isAdmin, res));
+	if (req.isAuthenticated()) return deleting(req, () => render(req, res));
+    list(() => render(req, res));
 });
 
 //страница конкретного фильма
 app.get("/film/:id", (req, res, next) => onefilm(req.params.id, (err, films) => {
 	if (err) return next() 
-	render(isAdmin, res, films)
+	render(req, res, films)
 }));
 
 //поиск
-app.get("/search/", (req, res) => search(req.query.inputSearch, (err, films, hint) => render(isAdmin, res, films, hint)));
+app.get("/search/", (req, res) => search(req.query.inputSearch, (err, films, hint) => render(req, res, films, hint)));
 
 //очистить поиск
 app.get("/clear/", (req, res) => res.redirect("/"));
