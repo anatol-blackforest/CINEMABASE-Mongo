@@ -25,7 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //проверяем админский хэш в сессии
-passport.use(new LocalStrategy((username, password, done) => getAccount(username, password, done).catch(err => done(null, false))));
+passport.use(new LocalStrategy((username, password, done) => getAccount(username, password, done).catch(() => done(null, false))));
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
@@ -47,7 +47,7 @@ app.route("/")
 		if (!req.isAuthenticated()) return list((err, films) => render(req, res, films));
 		uploader(req, res, err => {
 			// место, куда файл будет загружен 
-			postUploader(err, req, res, req.isAuthenticated());
+			postUploader(err, req, res);
 		});
 	});
 
