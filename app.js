@@ -11,11 +11,13 @@ const path = require('path');
 const logger = require('morgan');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const flash = require("connect-flash");
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
 
+app.use(flash());
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -25,7 +27,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //проверяем админский хэш в сессии
-passport.use(new LocalStrategy((username, password, done) => getAccount(username, password, done).catch(() => done(null, false))));
+passport.use(new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => getAccount(req, username, password, done).catch(() => done(null, false))));
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
