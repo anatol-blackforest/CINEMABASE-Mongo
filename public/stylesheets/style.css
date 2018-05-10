@@ -229,13 +229,21 @@ h4 {font-size:20px;line-height:1.2em;letter-spacing:-1px;color:#2c6d9a;margin-bo
     cursor: pointer
 }
 .paginator{
-    padding: 10px 0
+    padding: 10px 0;
+    position: relative;
+    overflow: hidden
 }
 .paginator a{
-    text-decoration: none
+    text-decoration: none;
+    padding: 5px;
 }
 .paginator .allpages{
-    text-align: center
+    width: 840px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    word-wrap: break-word 
 }
 .paginator .active{
     color: #d72a18
