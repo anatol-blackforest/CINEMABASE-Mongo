@@ -228,3 +228,15 @@ h4 {font-size:20px;line-height:1.2em;letter-spacing:-1px;color:#2c6d9a;margin-bo
     background: #000;
     cursor: pointer
 }
+.paginator{
+    padding: 10px 0
+}
+.paginator a{
+    text-decoration: none
+}
+.paginator .prevpage{
+    float: left
+}
+.paginator .nextpage{
+    float: right
+}
