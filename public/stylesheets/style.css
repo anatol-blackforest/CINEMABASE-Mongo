@@ -237,3 +237,6 @@ h4 {font-size:20px;line-height:1.2em;letter-spacing:-1px;color:#2c6d9a;margin-bo
 .paginator .allpages{
     text-align: center
 }
+.paginator .active{
+    color: #d72a18
+}
