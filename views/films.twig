@@ -53,10 +53,11 @@
 									<div class="inner">
 										<h3>Список <span>фильмов</span></h3>
 										<ul class="list">
-											{% for item in films|reverse %}
+											{% for item in films %}
 												<li>
 													<div>
 													    <h4 class="p_title"><a href="/film/{{item._id}}">"{{item.title|escape}}"</a></h4>
+														<p><i>Дата добавления: {{item.date}} </i></p>
 														{% if item.preview %}
 														<div class="poster"><a href="/film/{{item._id}}"><img src="/images/{{item.preview}}" alt="{{item.title|escape}}" /></a></div>
 														{% else %}
@@ -69,13 +70,21 @@
 														<p class="p1"><span>Продолжительность (мин):</span> {{item.duration|escape}}</p>
 														<p class="p1"><span>Рейтинг IMDB:</span> {{item.imdb|escape}}</p>
 														<p class="p1"><span>Описание:</span> {{item.about|escape}}</p>
+														<p class="date"><i>Дата добавления: {{item.date}} </i></p>
 													</div>
 												</li>
 											{% endfor %}
 										</ul>
 										{% if openPager %}
 											<div class="paginator">
-												<div class="nextpage"><a href="/page/2">Next page >></a></div>
+												<div class="allpages">
+												    <a href="/page/1">&lt;&lt; First page</a>
+													{% set n = pages %}
+													{% for i in range(1, n) %}
+														<a href="/page/{{i}}">{{i}}</a>
+													{% endfor %}
+													<a href="/page/{{pages}}">Last page >></a>
+												</div>
 											</div>
 										{% endif %}
 									</div>

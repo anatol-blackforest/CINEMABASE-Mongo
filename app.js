@@ -1,5 +1,5 @@
 //подключаем модули
-const {config, list, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages, postUploader} = require('./lib');
+const {config, list, page, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages, postUploader} = require('./lib');
 const port = config.port;
 
 const express = require('express');
@@ -61,6 +61,12 @@ app.delete("/delete/:id", (req, res) => {
 
 //страница конкретного фильма
 app.get("/film/:id", (req, res, next) => onefilm(req.params.id, (err, films) => {
+	if (err) return next() 
+	render(req, res, films)
+}));
+
+//страница списка
+app.get("/page/:num", (req, res, next) => page(req.params.num, (err, films) => {
 	if (err) return next() 
 	render(req, res, films)
 }));
