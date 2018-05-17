@@ -1,21 +1,5 @@
 //подключаем модули
-const {
-	config, 
-	list, 
-	page, 
-	change, 
-	deleting, 
-	uploader, 
-	onefilm, 
-	search, 
-	crypto, 
-	render, 
-	install, 
-	getAccount, 
-	messages: {dbErr, dbConnected, listening}, 
-	postUploader, 
-	db
-} = require('./lib');
+const {config, list, page, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages: {dbErr, dbConnected, listening}, postUploader, db} = require('./lib');
 
 const port = config.port;
 
