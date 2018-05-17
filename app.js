@@ -1,5 +1,22 @@
 //подключаем модули
-const {config, list, page, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages, postUploader} = require('./lib');
+const {
+	config, 
+	list, 
+	page, 
+	change, 
+	deleting, 
+	uploader, 
+	onefilm, 
+	search, 
+	crypto, 
+	render, 
+	install, 
+	getAccount, 
+	messages: {dbErr, dbConnected, listening}, 
+	postUploader, 
+	db
+} = require('./lib');
+
 const port = config.port;
 
 const express = require('express');
@@ -85,4 +102,6 @@ app.route("/install/")
 // ловим 404 ошибку
 app.use((req, res) => res.status(404).render("404.twig"));	
 
-app.listen(port, () => console.log(`${messages.listening} ${port}`));
+db.connectDB((err) => app.listen(port, () => console.log(`${(err) ? dbErr : dbConnected} ${listening} ${port}`)))
+
+process.on('exit', () => db.closeDB())
