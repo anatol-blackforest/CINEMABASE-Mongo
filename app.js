@@ -1,7 +1,6 @@
 //подключаем модули
-const {config, list, page, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages: {dbErr, dbConnected, listening}, postUploader, db} = require('./lib');
-
-const port = config.port;
+const {config, list, page, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages: {listening}, postUploader} = require('./lib');
+const {url, port} = config;
 
 const express = require('express');
 const app = express();
@@ -13,6 +12,7 @@ const logger = require('morgan');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require("connect-flash");
+const expressMongoDb = require('express-mongo-db');
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
@@ -26,12 +26,7 @@ app.use(cookieParser());
 app.use(session({keys: ['montesuma']}));
 app.use(passport.initialize());
 app.use(passport.session());
-
-//защита от дурака - если админ запустит скрипт раньше базы, и при случайном падении базы:
-app.use((req, res, next) => {
-	db.connectDB(err => console.log((err) ? dbErr : dbConnected))
-	next()
-}) 
+app.use(expressMongoDb(url));
 
 //проверяем админский хэш в сессии
 passport.use(new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => getAccount(req, username, password, done).catch(() => done(null, false))));
@@ -50,10 +45,10 @@ app.post("/logout/", (req, res) => {
 
 app.route("/")
     //рендерим список фильмов
-	.get((req, res) => list((err, films) => render(req, res, films)))
+	.get((req, res) => list(req, (err, films) => render(req, res, films)))
     //постим или редактируем
 	.post((req, res) => {
-		if (!req.isAuthenticated()) return list((err, films) => render(req, res, films));
+		if (!req.isAuthenticated()) return list(req, (err, films) => render(req, res, films));
 		uploader(req, res, err => {
 			// место, куда файл будет загружен 
 			postUploader(err, req, res);
@@ -63,23 +58,23 @@ app.route("/")
 //удаляем
 app.delete("/delete/:id", (req, res) => {
 	if (req.isAuthenticated()) return deleting(req, () => render(req, res));
-    list(() => render(req, res));
+    list(req, () => render(req, res));
 });
 
 //страница конкретного фильма
-app.get("/film/:id", (req, res, next) => onefilm(req.params.id, (err, films) => {
+app.get("/film/:id", (req, res, next) => onefilm(req, (err, films) => {
 	if (err) return next() 
 	render(req, res, films)
 }));
 
 //страница списка
-app.get("/page/:num", (req, res, next) => page(req.params.num, (err, films) => {
+app.get("/page/:num", (req, res, next) => page(req, (err, films) => {
 	if (err) return next() 
 	render(req, res, films)
 }));
 
 //поиск
-app.get("/search/", (req, res) => search(req.query.inputSearch, (err, films, hint) => render(req, res, films, hint)));
+app.get("/search/", (req, res) => search(req, (err, films, hint) => render(req, res, films, hint)));
 
 //очистить поиск
 app.get("/clear/", (req, res) => res.redirect("/"));
@@ -93,7 +88,4 @@ app.route("/install/")
 app.use((req, res) => res.status(404).render("404.twig"));	
 
 //инициализация приложения при запуске
-db.connectDB(err => app.listen(port, () => console.log(`${(err) ? dbErr : dbConnected}${listening} ${port}`)))
-
-//обрыв коннекта при выходе
-process.on('exit', () => db.closeDB())
+app.listen(port, () => console.log(`${listening} ${port}`))
