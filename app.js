@@ -92,6 +92,8 @@ app.route("/install/")
 // ловим 404 ошибку
 app.use((req, res) => res.status(404).render("404.twig"));	
 
+//инициализация приложения при запуске
 db.connectDB(err => app.listen(port, () => console.log(`${(err) ? dbErr : dbConnected}${listening} ${port}`)))
 
+//обрыв коннекта при выходе
 process.on('exit', () => db.closeDB())
