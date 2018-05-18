@@ -27,6 +27,12 @@ app.use(session({keys: ['montesuma']}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+//защита от дурака - если админ запустит скрипт раньше базы, и при случайном падении базы:
+app.use((req, res, next) => {
+	db.connectDB(err => console.log((err) ? dbErr : dbConnected))
+	next()
+}) 
+
 //проверяем админский хэш в сессии
 passport.use(new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => getAccount(req, username, password, done).catch(() => done(null, false))));
 
