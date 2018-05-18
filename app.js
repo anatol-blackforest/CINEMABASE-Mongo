@@ -52,7 +52,7 @@ app.route("/")
 		uploader(req, res, err => {
 			// место, куда файл будет загружен 
 			postUploader(err, req, res);
-		});
+		})
 	});
 
 //удаляем
