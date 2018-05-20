@@ -1,5 +1,5 @@
 //подключаем модули
-const {config, list, page, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages: {listening}, postUploader} = require('./lib');
+const {config, list, page, change, deleting, uploader, onefilm, search, crypto, render, install, getAccount, messages: {listening}, postUploader, db} = require('./lib');
 const {url, port} = config;
 
 const express = require('express');
@@ -12,7 +12,6 @@ const logger = require('morgan');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require("connect-flash");
-const expressMongoDb = require('express-mongo-db');
 
 app.set("twig options", {strict_variables: false});
 app.set('views', path.join(__dirname, 'views'));
@@ -26,7 +25,9 @@ app.use(cookieParser());
 app.use(session({keys: ['montesuma']}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(expressMongoDb(url));
+
+//коннекты к базе
+app.use((req, res, next) => db.connectDB(req, next)) 
 
 //проверяем админский хэш в сессии
 passport.use(new LocalStrategy({passReqToCallback : true}, (req, username, password, done) => getAccount(req, username, password, done).catch(() => done(null, false))));
@@ -89,3 +90,6 @@ app.use((req, res) => res.status(404).render("404.twig"));
 
 //инициализация приложения при запуске
 app.listen(port, () => console.log(`${listening} ${port}`))
+
+//горячее выключение сервера
+process.on('exit', () => db.closeDB())
