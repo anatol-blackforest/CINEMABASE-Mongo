@@ -52,7 +52,7 @@
                                     <div class="field"><label>Режиссер: <input type="text" name="author"></label></div>
                                     <div class="field"><label>В ролях: <input type="text" name="actors"></label></div>
                                     <div class="field"><label>Продолжительность (мин): <input type="number" min="15" max="300" name="duration"></label></div>
-                                    <div class="field"><label>Рейтинг IMDB: <input type="text" name="imdb"></label></div>
+                                    <div class="field"><label>Рейтинг IMDB: <input type="number" name="imdb" min="1" max="10" step="0.1"></label></div>
                                     <div class="field"><label>Обложка (2MB max): <input type="file" name="preview"></label></div>
                                     <div class="field"><label>Описание*: </label>
                                         <textarea name="about" id="about" cols="30" rows="10"></textarea>
@@ -107,7 +107,7 @@
 															<div class="field"><label>Режиссер: <input type="text" name="author" value="{{item.author|escape}}"></label></div>
 															<div class="field"><label>В ролях: <input type="text" name="actors" value="{{item.actors|escape}}"></label></div>
 															<div class="field"><label>Продолжительность (мин): <input type="number" min="15" max="300" name="duration" value="{{item.duration|escape}}"></label></div>
-															<div class="field"><label>Рейтинг IMDB: <input type="text" name="imdb" value="{{item.imdb|escape}}"></label></div>
+															<div class="field"><label>Рейтинг IMDB: <input type="number" name="imdb" min="1" max="10" step="0.1" value="{{item.imdb|escape}}"></label></div>
 															<div class="field"><label>Обложка (2MB max): <input type="file" name="preview"></label></div>
 															<div class="field"><label>Описание*: </label>
 																<textarea name="about" id="about-{{item._id}}" cols="30" rows="10">{{item.about|escape}}</textarea>
