@@ -57,7 +57,7 @@ app.route("/")
 //удаляем
 app.delete("/delete/:id", (req, res) => {
 	if (req.isAuthenticated()) return deleting(req, () => render(req, res));
-    list(req, () => render(req, res));
+	list(req, () => render(req, res));
 });
 
 //страница конкретного фильма
