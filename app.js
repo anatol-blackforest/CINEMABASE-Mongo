@@ -50,10 +50,8 @@ app.route("/")
     //постим или редактируем
 	.post((req, res) => {
 		if (!req.isAuthenticated()) return list(req, (err, films) => render(req, res, films));
-		uploader(req, res, err => {
-			// место, куда файл будет загружен 
-			postUploader(err, req, res);
-		})
+		//место, куда файл будет загружен 
+		uploader(req, res, err => postUploader(err, req, res));
 	});
 
 //удаляем
