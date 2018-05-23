@@ -62,6 +62,7 @@
 														{% else %}
 														<div class="poster"><a href="/film/{{item._id}}"><img src="/images/no-poster.png" alt="{{item.title|escape}}" /></a></div>
 														{% endif %}
+														<p class="p1"><span>Год:</span> {{item.year|escape}}</p>
 														<p class="p1"><span>Страна:</span> {{item.country|escape}}</p>
 														<p class="p1"><span>Жанр:</span> {{item.genre|escape}}</p>
 														<p class="p1"><span>Режиссер:</span> {{item.author|escape}}</p>
