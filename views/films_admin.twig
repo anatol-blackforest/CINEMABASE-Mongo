@@ -47,6 +47,7 @@
                                 
                                 <fieldset>
                                     <div class="field"><label>Название*: <input type="text" id="title" name="title"></label></div>
+									<div class="field"><label>Год: <input type="number" name="year" min="1800"></label></div>
                                     <div class="field"><label>Страна: <input type="text" name="country"></label></div>
                                     <div class="field"><label>Жанр: <input type="text" name="genre"></label></div>
                                     <div class="field"><label>Режиссер: <input type="text" name="author"></label></div>
@@ -82,6 +83,7 @@
 														{% else %}
 														<div class="poster"><a href="/film/{{item._id}}"><img src="/images/no-poster.png" alt="{{item.title|escape}}" /></a></div>
 														{% endif %}
+														<p class="p1"><span>Год:</span> {{item.year|escape}}</p>
 														<p class="p1"><span>Страна:</span> {{item.country|escape}}</p>
 														<p class="p1"><span>Жанр:</span> {{item.genre|escape}}</p>
 														<p class="p1"><span>Режиссер:</span> {{item.author|escape}}</p>
@@ -102,6 +104,7 @@
                                 
 														<fieldset>
 															<div class="field"><label>Название*: <input type="text" id="title-{{item._id}}" name="title" value="{{item.title|escape}}"></label></div>
+															<div class="field"><label>Год: <input type="number" name="year" min="1800"></label></div>
 															<div class="field"><label>Страна: <input type="text" name="country" value="{{item.country|escape}}"></label></div>
 															<div class="field"><label>Жанр: <input type="text" name="genre" value="{{item.genre|escape}}"></label></div>
 															<div class="field"><label>Режиссер: <input type="text" name="author" value="{{item.author|escape}}"></label></div>
