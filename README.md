@@ -6,5 +6,5 @@
 
 Демо-версия: https://cinemabase-mongo.herokuapp.com/. 
 
-Login: admin 
+Login: admin, 
 Pass: 1234
